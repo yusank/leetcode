@@ -28,8 +28,10 @@ import (
 */
 
 func main() {
-	nums := []int{1, -2, -5, -4, -3, 3, 3, 5}
-	target := -11
+	nums := []int{-1, 0, -5, -2, -2, -4, 0, 1, -2}
+	target := -9
+	// nums := []int{1, -2, -5, -4, -3, 3, 3, 5}
+	// target := -11
 
 	// nums := []int{-1, -5, -5, -3, 2, 5, 0, 4}
 	// target := -7
@@ -66,12 +68,15 @@ func fourSum(nums []int, n int) [][]int {
 
 		for j := i + 1; j < len(nums)-1; j++ {
 			var (
-				head, end = j + 1, len(nums) - 1
+				head, end = j + 1, ln - 1
 			)
-			fmt.Println(i, j, head, end)
-			// if nums[j] > n || nums[head]+nums[j] > n {
-			// 	break
-			// }
+
+			fmt.Println(nums[i], nums[j], nums[head], nums[head], nums[i]+nums[j]+nums[head])
+			if nums[i]+nums[j]+nums[head] > n && nums[head] > 0 {
+				fmt.Println("continue")
+				continue
+			}
+
 			if j > i+1 && nums[j] == nums[j-1] {
 				continue
 			}
@@ -82,7 +87,7 @@ func fourSum(nums []int, n int) [][]int {
 					continue
 				}
 
-				if end < len(nums)-2 && nums[end] == nums[end+1] {
+				if end < ln-2 && nums[end] == nums[end+1] {
 					end--
 					continue
 				}
