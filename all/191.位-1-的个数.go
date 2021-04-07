@@ -3,33 +3,25 @@
  *
  * [191] 位1的个数
  */
+package main
 
- package main
+import "log"
 
- import "log"
-
- func main() {
-	log.Println(hammingWeight(8))
- }
+func main() {
+	log.Println(hammingWeight(9))
+}
 
 // @lc code=start
 func hammingWeight(num uint32) int {
     var (
-		rst int
-		pow = uint32(31)
+		rs int
 	)
 
 	for num != 0 {
-		log.Println((num&1) << pow)
-		if (num&1) << pow ==  1 {
-			rst++
-		}
-
-		num = num >> 1
-		pow--
+		rs++
+		num = num & (num-1)
 	}
-
-	return rst
+	return rs
 }
 // @lc code=end
 

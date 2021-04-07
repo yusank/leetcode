@@ -4,48 +4,46 @@
  * [40] 组合总和 II
  */
 
-// @lc code=start
-func combinationSum2(candidates []int, target int) (ans [][]int) {
-	sort.Ints(candidates)
-	var freq [][2]int
-	for _, num := range candidates {
-		if freq == nil || num != freq[len(freq)-1][0] {
-			freq = append(freq, [2]int{num, 1})
-		} else {
-			freq[len(freq)-1][1]++
-		}
-	}
+package main
 
-	var sequence []int
-	var dfs func(pos, rest int)
-	dfs = func(pos, rest int) {
-		if rest == 0 {
-			ans = append(ans, append([]int(nil), sequence...))
-			return
-		}
-		if pos == len(freq) || rest < freq[pos][0] {
-			return
-		}
+import "log"
 
-		dfs(pos+1, rest)
+func main() {
+	a := []int{10, 1, 2, 7, 6, 1, 5}
+	t := 8
 
-		most := min(rest/freq[pos][0], freq[pos][1])
-		for i := 1; i <= most; i++ {
-			sequence = append(sequence, freq[pos][0])
-			dfs(pos+1, rest-i*freq[pos][0])
-		}
-		sequence = sequence[:len(sequence)-most]
-	}
-	dfs(0, target)
-	return
+	r := combinationSum2(a, t)
+	log.Println(r)
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
+// @lc code=start
+func combinationSum2(candidates []int, target int) [][]int {
+	var (
+		combs []int
+		ans   [][]int
+		dfs   func(int, int)
+	)
+
+	dfs = func(target, idx int) {
+		if idx == len(candidates) {
+			return
+		}
+
+		if target == 0 {
+			ans = append(ans, append([]int{}, combs...))
+			return
+		}
+
+		dfs(target, idx+1)
+		if target-candidates[idx] >= 0 {
+			combs = append(combs, candidates[idx])
+			dfs(target-candidates[idx], idx+1)
+			combs = combs[:len(combs)-1]
+		}
 	}
-	return b
+
+	dfs(target, 0)
+	return ans
 }
 
 // @lc code=end
-
