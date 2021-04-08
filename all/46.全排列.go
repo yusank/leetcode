@@ -10,7 +10,7 @@ import "log"
 
 func main() {
 	a := []int{1, 2, 3}
-	r := permute(a)
+	r := permute2(a)
 	log.Println(r)
 }
 
@@ -32,9 +32,47 @@ func permute(nums []int) [][]int {
 		sub := permute(tmp)
 		for _, s := range sub {
 			res = append(res, append(s, num))
+			log.Println(res)
 		}
 	}
 	return res
+}
+
+// 回溯法 2
+func permute2(nums []int) [][]int {
+	var (
+		rs [][]int
+		dfs func([]int)
+	)
+
+	dfs = func(trace []int) {
+		if len(trace) == len(nums) {
+			rs = append(rs, append([]int{},trace...))
+			return
+		}
+
+		for i := range nums {
+			var ex bool
+			for _,t := range trace {
+				if nums[i] == t {
+					ex=true
+					break
+				}
+			}
+
+			if ex {
+				continue
+			}
+
+			trace = append(trace,nums[i])
+			dfs(trace)
+			trace = trace[:len(trace)-1]
+		}
+	}
+
+	dfs([]int{})
+
+	return rs
 }
 
 // @lc code=end
