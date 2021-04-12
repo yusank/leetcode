@@ -15,21 +15,33 @@
  */
 func preorderTraversal(root *TreeNode) []int {
 	var (
-		nums  []int
-		order func(*TreeNode)
+		nums []int
+		// order func(*TreeNode)
+		stack = make([]*TreeNode, 0)
 	)
 
-	order = func(n *TreeNode) {
-		if n == nil {
-			return
+	for root != nil || len(stack) > 0 {
+		for root != nil {
+			nums = append(nums, root.Val)
+			stack = append(stack, root)
+			root = root.Left
 		}
 
-		nums = append(nums, n.Val)
-		order(n.Left)
-		order(n.Right)
+		root = stack[len(stack)-1].Right
+		stack = stack[:len(stack)-1]
 	}
 
-	order(root)
+	// order = func(n *TreeNode) {
+	// 	if n == nil {
+	// 		return
+	// 	}
+
+	// 	nums = append(nums, n.Val)
+	// 	order(n.Left)
+	// 	order(n.Right)
+	// }
+
+	// order(root)
 	return nums
 }
 
