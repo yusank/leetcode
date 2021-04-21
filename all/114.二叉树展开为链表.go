@@ -14,6 +14,8 @@
  * }
  */
 func flatten(root *TreeNode) {
+	flattenOrg(root)
+	return
 	if root == nil {
 		return
 	}
@@ -41,6 +43,26 @@ func flatten(root *TreeNode) {
 
 	root.Left = nil
 	root.Right = nt.Right
+}
+
+// 原地
+func flattenOrg(root *TreeNode) {
+	cur := root
+	for cur != nil {
+		if cur.Left != nil {
+			next := cur.Left
+			p := next
+			for p.Right != nil {
+				p = p.Right
+			}
+
+			p.Right = cur.Right
+			cur.Left = nil
+			cur.Right = next
+		}
+
+		cur = cur.Right
+	}
 }
 
 // @lc code=end
